@@ -1,97 +1,88 @@
-function LinkedList() {
-  this.head = null;
-}
-
-LinkedList.prototype.add = function(data) {
-  var newNode = {
-    data: data,
-    next: null
-  };
-
-  if (!this.head) {
-    this.head = newNode;
-    return;
+class LinkedList {
+  constructor() {
+    this.head = null;
+    this.count = 0;
   }
 
-  var currentNode = this.head;
-  while (currentNode.next) {
-    currentNode = currentNode.next;
-  }
-  currentNode.next = newNode;
-};
-
-
-LinkedList.prototype.find = function(data) {
-  if (!this.head) {
-    return false;
+  getNode(value) {
+    return {
+      value: value,
+      next: null
+    };
   }
 
-  var currentNode = this.head;
-  while (currentNode) {
-    if (data === currentNode.data) {
-      return currentNode;
-    }
-    currentNode = currentNode.next;
-  }
-  return false;
-};
+  add(value) {
 
-LinkedList.prototype.findMiddle = function() {
-  if (!this.head) {
-    return false;
-  }
-
-  var currentNode = this.head;
-  var twoUp = null;
-  var previousNode = null;
-  while (currentNode) {
-    if (!currentNode.next.next.next) {
-      return previousNode;
-    }
-    previousNode = currentNode;
-    currentNode = currentNode.next;
-  }
-};
-
-LinkedList.prototype.delete = function(data) {
-  if (!this.head) {
-    return false;
-  }
-
-  var currentNode = this.head;
-  var previousNode = null;
-
-  while (currentNode) {
-    if (data === currentNode.data) {
-      //we have a next/next element
-      if (previousNode && currentNode.next) {
-        previousNode.next = currentNode.next;
-      } else if(currentNode.next) {
-        this.head = currentNode.next;
-      } else {
-        previousNode.next = null;
-      }
-
-      currentNode = null;
+    var newNode = this.getNode(value);
+    this.count++;
+    if (!this.head) {
+      this.head = newNode;
       return;
     }
-    previousNode = currentNode;
-    currentNode = currentNode.next;
+
+    var current = this.head;
+    while (current.next) {
+      current = current.next;
+    }
+    current.next = newNode;
   }
-};
 
-var list = new LinkedList();
-list.add('node 1');
-list.add('node 2');
-list.add('node 3');
-list.add('node 4');
-list.add('node 5');
-list.add('node 6');
-list.add('node 7');
-list.add('node 8');
+  find(value) {
+    if (!this.head) {
+      return false;
+    }
 
-//list.delete('node 4');
-console.log(list.findMiddle());
+    var current = this.head;
+    while (current) {
+      if (value === current.value) {
+        return current;
+      }
+      current = current.next;
+    }
+  }
 
-//console.log(list);
+  findMiddle() {
+    if (!this.head) {
+      return false;
+    }
 
+    //There is no middle
+    if (this.count % 2 === 0) {
+      return false;
+    }
+
+    if (this.count < 3) {
+      return false;
+    }
+
+    var current = this.head;
+    var prev = current;
+
+    while (current) {
+      if (!current.next) {
+        return prev;
+      }
+      prev = prev.next;
+      current = current.next.next;
+    }
+  }
+}
+
+var ll = new LinkedList();
+ll.add(1);
+ll.add(2);
+ll.add(3);
+ll.add(4);
+ll.add(5);
+ll.add(6);
+ll.add(7);
+ll.add(8);
+ll.add(9);
+ll.add(10);
+ll.add(11);
+ll.add(12);
+ll.add(13);
+
+//console.log(ll.find(2));
+console.log('FINAL-- ', ll.findMiddle());
+//console.log(ll);
